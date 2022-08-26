@@ -11,7 +11,7 @@ public sealed class TrayData
     public TrayDirection Direction
         => _direction;
     public TrayDefinition Definition
-        => _matrix;
+        => _tray;
     public TrayID[] IDS 
         => _ids;
     public TrayUsage[] InUse
@@ -40,55 +40,55 @@ public sealed class TrayData
 
     public TrayData(TrayDefinition Matrix)
     {
-        _matrix = Matrix;
-        _ids = new TrayID[_matrix.MatrixSize];
-        _inUse = new TrayUsage[_matrix.MatrixSize];
-        _subSectionId = new byte[_matrix.MatrixSize];
-        _xAbsPosInMm = new float[_matrix.MatrixSize];
-        _yAbsPosInMm = new float[_matrix.MatrixSize];
-        _xOffsetInMm = new float[_matrix.MatrixSize];
-        _yOffsetInMm = new float[_matrix.MatrixSize];
-        _socketAngle = new float[_matrix.MatrixSize];
-        _socketYCorrection = new float[_matrix.MatrixSize];
-        _socketXCorrection = new float[_matrix.MatrixSize];
-        _tag = new object[_matrix.MatrixSize];
-        _status = new byte[_matrix.MatrixSize];
+        _tray = Matrix;
+        _ids = new TrayID[_tray.MatrixSize];
+        _inUse = new TrayUsage[_tray.MatrixSize];
+        _subSectionId = new byte[_tray.MatrixSize];
+        _xAbsPosInMm = new float[_tray.MatrixSize];
+        _yAbsPosInMm = new float[_tray.MatrixSize];
+        _xOffsetInMm = new float[_tray.MatrixSize];
+        _yOffsetInMm = new float[_tray.MatrixSize];
+        _socketAngle = new float[_tray.MatrixSize];
+        _socketYCorrection = new float[_tray.MatrixSize];
+        _socketXCorrection = new float[_tray.MatrixSize];
+        _tag = new object[_tray.MatrixSize];
+        _status = new byte[_tray.MatrixSize];
 
         InitializeMatrixIdentities();
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _inUse[i] = TrayUsage.InUse;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _subSectionId[i] = 0;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _xOffsetInMm[i] = 10;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _yOffsetInMm[i] = 10;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _socketAngle[i] = 0;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _socketYCorrection[i] = 0;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _socketXCorrection[i] = 0;
 
-        for (ushort i = 0; i < _matrix.MatrixSize; i++)
+        for (ushort i = 0; i < _tray.MatrixSize; i++)
             _status[i] = 0;
 
         void InitializeMatrixIdentities()
         {
             ushort total = 0;
             byte idy, idx;
-            for (byte y = 0; y < _matrix.YCount; y++)
+            for (byte y = 0; y < _tray.YCount; y++)
             {
                 idy = y;
                 idy += 1;
-                for (byte x = 0; x < _matrix.XCount; x++)
+                for (byte x = 0; x < _tray.XCount; x++)
                 {
                     idx = x;
                     idx += 1;
@@ -100,7 +100,7 @@ public sealed class TrayData
 
     }
 
-    private readonly TrayDefinition _matrix;
+    private readonly TrayDefinition _tray;
     private TrayStartCorner _corner = TrayStartCorner.UpperLeft;
     private TrayDirection _direction = TrayDirection.Xdirection;
     private readonly TrayUsage[] _inUse;
