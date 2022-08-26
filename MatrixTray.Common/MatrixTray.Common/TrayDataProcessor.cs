@@ -60,10 +60,10 @@ public sealed class TrayDataProcessor
         if (_data.InUse[idx] != TrayUsage.InUse)
             return false;
 
-        if (_data.Status[idx] != TrayStatus.Initialized)
-            return false;
+        if (_data.Status[idx] == TrayStatus.Initialized)
+            return true;
 
-        return true;
+        return false;
     }
 
     public void DisableSocketOnTray(TrayID Id)
