@@ -4,17 +4,17 @@
 /// <para>Raw Data for the matrix.</para>
 /// <para>As it is just raw data, there is no reason to abstract around it.</para>
 /// </summary>
-public sealed class MatrixData
+public sealed class TrayData
 {
-    public MatrixStartCorner StartCorner
+    public TrayStartCorner StartCorner
         => _corner;
-    public MatrixDirection Direction
+    public TrayDirection Direction
         => _direction;
-    public MatrixDefinition Definition
+    public TrayDefinition Definition
         => _matrix;
-    public MatrixId[] IDS 
+    public TrayID[] IDS 
         => _ids;
-    public TrayMatrixUsage[] InUse
+    public TrayUsage[] InUse
         => _inUse;
     public byte[] SubSectionID
         => _subSectionId;
@@ -38,11 +38,11 @@ public sealed class MatrixData
         => _status;
 
 
-    public MatrixData(MatrixDefinition Matrix)
+    public TrayData(TrayDefinition Matrix)
     {
         _matrix = Matrix;
-        _ids = new MatrixId[_matrix.MatrixSize];
-        _inUse = new TrayMatrixUsage[_matrix.MatrixSize];
+        _ids = new TrayID[_matrix.MatrixSize];
+        _inUse = new TrayUsage[_matrix.MatrixSize];
         _subSectionId = new byte[_matrix.MatrixSize];
         _xAbsPosInMm = new float[_matrix.MatrixSize];
         _yAbsPosInMm = new float[_matrix.MatrixSize];
@@ -57,7 +57,7 @@ public sealed class MatrixData
         InitializeMatrixIdentities();
 
         for (ushort i = 0; i < _matrix.MatrixSize; i++)
-            _inUse[i] = TrayMatrixUsage.InUse;
+            _inUse[i] = TrayUsage.InUse;
 
         for (ushort i = 0; i < _matrix.MatrixSize; i++)
             _subSectionId[i] = 0;
@@ -100,12 +100,12 @@ public sealed class MatrixData
 
     }
 
-    private readonly MatrixDefinition _matrix;
-    private MatrixStartCorner _corner = MatrixStartCorner.UpperLeft;
-    private MatrixDirection _direction = MatrixDirection.Xdirection;
-    private readonly TrayMatrixUsage[] _inUse;
+    private readonly TrayDefinition _matrix;
+    private TrayStartCorner _corner = TrayStartCorner.UpperLeft;
+    private TrayDirection _direction = TrayDirection.Xdirection;
+    private readonly TrayUsage[] _inUse;
     private readonly byte[] _subSectionId;
-    private readonly MatrixId[] _ids;
+    private readonly TrayID[] _ids;
     private readonly float[] _xAbsPosInMm;
     private readonly float[] _yAbsPosInMm;
     private readonly byte[] _status;

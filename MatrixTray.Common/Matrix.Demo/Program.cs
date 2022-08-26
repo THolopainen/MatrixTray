@@ -4,23 +4,23 @@ using MatrixTray.Common;
 System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();   
 sw.Reset();
 sw.Start();
-var data = new MatrixData(new MatrixDefinition(10, 10));
-var proc = new MatrixDataProcessor(data);
+var data = new TrayData(new TrayDefinition(10, 10));
+var proc = new TrayDataProcessor(data);
 sw.Stop();
 var tiks = sw.ElapsedTicks;
 
-MatrixCoord start = new(10, 10);
-MatrixCoord offset = new(2, 3);
+TrayCoord start = new(10, 10);
+TrayCoord offset = new(2, 3);
 proc.InitializeMatrixCoordinates(start, offset);
 
 proc.AdjustXOffsetForColumn(3, 0.5f);
 
-var dir = new MatrixProcessingOrder(data);
+var dir = new TrayProcessingOrder(data);
 
-dir.Calculate(MatrixStartCorner.LowerLeft, MatrixDirection.YDirection);
+dir.Calculate(TrayStartCorner.LowerLeft, TrayDirection.YDirection);
 var ans = dir.GetProcessingOrder();
 
-dir.Calculate(MatrixStartCorner.UpperRight, MatrixDirection.YDirection);
+dir.Calculate(TrayStartCorner.UpperRight, TrayDirection.YDirection);
 ans = dir.GetProcessingOrder();
 
 Console.ReadKey();

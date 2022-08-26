@@ -2,7 +2,7 @@
 namespace MatrixTray.Common;
 
 [StructLayout(LayoutKind.Explicit, Size = 2)]
-public readonly struct MatrixDefinition
+public readonly struct TrayDefinition
 {
     [FieldOffset(0)]
     public readonly ushort MatrixSize;
@@ -13,14 +13,14 @@ public readonly struct MatrixDefinition
     [FieldOffset(3)]
     public readonly byte YCount;
     
-    public MatrixDefinition(byte Xcount, byte Ycount)
+    public TrayDefinition(byte Xcount, byte Ycount)
     {
         XCount = Xcount;
         YCount = Ycount;
         MatrixSize = (ushort)(Xcount * Ycount);
     }
 
-    public static MatrixDefinition Empty()
+    public static TrayDefinition Empty()
         => new(0, 0);
 }
 

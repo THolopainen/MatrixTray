@@ -5,16 +5,16 @@
 /// <para>Processing order depends on which corner we want to start and to which direction to proceed.</para>
 /// <para>the sorted list if IDs can be read from the ProcessingOrder after calculation.</para>
 /// </summary>
-public sealed class MatrixProcessingOrder
+public sealed class TrayProcessingOrder
 {
-    private readonly MatrixId[] _processOrder;
+    private readonly TrayID[] _processOrder;
 
-    public MatrixProcessingOrder(MatrixData Data)
+    public TrayProcessingOrder(TrayData Data)
     {
         _ = Data ?? throw new ArgumentNullException(nameof(Data));
         _ = Data.IDS ?? throw new ArgumentNullException(nameof(Data));
 
-        _processOrder = new MatrixId[Data.Definition.MatrixSize];
+        _processOrder = new TrayID[Data.Definition.MatrixSize];
         Data.IDS.CopyTo(_processOrder, 0);
     }
 
@@ -22,14 +22,14 @@ public sealed class MatrixProcessingOrder
     /// <para>Returns a 'normal' reference to the ID array.</para>
     /// </summary>
     /// <returns></returns>
-    public MatrixId[] GetProcessingOrder() 
+    public TrayID[] GetProcessingOrder() 
         => _processOrder;
 
     /// <summary>
     /// <para>Return stack-bound reference to the ID array.</para>
     /// </summary>
     /// <returns></returns>
-    public ref readonly MatrixId[] GetProcessingOrderRef() 
+    public ref readonly TrayID[] GetProcessingOrderRef() 
         => ref _processOrder;
 
     /// <summary>
@@ -45,7 +45,7 @@ public sealed class MatrixProcessingOrder
     /// <para>Task which performs calculation async.</para>
     /// <para>after completion, the result is readable from the ProcessingOrder.</para>
     /// </returns>
-    public async Task CalculateAsync(MatrixStartCorner Corner, MatrixDirection Dir)
+    public async Task CalculateAsync(TrayStartCorner Corner, TrayDirection Dir)
     {
         await Task.Run(() => Calculate(Corner, Dir));
     }
@@ -59,41 +59,41 @@ public sealed class MatrixProcessingOrder
     /// <param name="Dir">
     /// <para>Direction where to proceed on the tray.</para>
     /// </param>
-    public void Calculate(MatrixStartCorner Corner, MatrixDirection Dir)
+    public void Calculate(TrayStartCorner Corner, TrayDirection Dir)
     {
         Array.Sort(_processOrder, GetComparer(Corner, Dir));
     }
 
-    private static IComparer<MatrixId> GetComparer(MatrixStartCorner c, MatrixDirection d) 
+    private static IComparer<TrayID> GetComparer(TrayStartCorner c, TrayDirection d) 
         => (c, d) switch
     {
-        (MatrixStartCorner.UpperLeft, MatrixDirection.Xdirection)
+        (TrayStartCorner.UpperLeft, TrayDirection.Xdirection)
             => new FromTopLeftRowsFirst(),
-        (MatrixStartCorner.UpperLeft, MatrixDirection.YDirection)
+        (TrayStartCorner.UpperLeft, TrayDirection.YDirection)
             => new FromTopLeftColumnsFirst(),
 
-        (MatrixStartCorner.UpperRight, MatrixDirection.Xdirection)
+        (TrayStartCorner.UpperRight, TrayDirection.Xdirection)
             => new FromTopRightRowsFirst(),
-        (MatrixStartCorner.UpperRight, MatrixDirection.YDirection)
+        (TrayStartCorner.UpperRight, TrayDirection.YDirection)
             => new FromTopRightColumnsFirst(),
 
-        (MatrixStartCorner.LowerLeft, MatrixDirection.Xdirection)
+        (TrayStartCorner.LowerLeft, TrayDirection.Xdirection)
             => new FromBottomLeftColumnsFirst(),
-        (MatrixStartCorner.LowerLeft, MatrixDirection.YDirection)
+        (TrayStartCorner.LowerLeft, TrayDirection.YDirection)
             => new FromBottomLeftRowsFirst(),
 
-        (MatrixStartCorner.LowerRight, MatrixDirection.Xdirection)
+        (TrayStartCorner.LowerRight, TrayDirection.Xdirection)
             => new FromBottomRightRowsFirst(),
-        (MatrixStartCorner.LowerRight, MatrixDirection.YDirection)
+        (TrayStartCorner.LowerRight, TrayDirection.YDirection)
             => new FromBottomRightColumnsFirst(),
 
         (_, _) => throw new InvalidOperationException()
     };
 }
 
-internal sealed class FromBottomRightColumnsFirst : IComparer<MatrixId>
+internal sealed class FromBottomRightColumnsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Xpos.CompareTo(b.Xpos);
@@ -115,9 +115,9 @@ internal sealed class FromBottomRightColumnsFirst : IComparer<MatrixId>
         return 0;
     }
 }
-internal sealed class FromBottomRightRowsFirst : IComparer<MatrixId>
+internal sealed class FromBottomRightRowsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation; 
         comparation = a.Ypos.CompareTo(b.Ypos);
@@ -140,9 +140,9 @@ internal sealed class FromBottomRightRowsFirst : IComparer<MatrixId>
     }
 }
 
-internal sealed class FromTopRightColumnsFirst : IComparer<MatrixId>
+internal sealed class FromTopRightColumnsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Xpos.CompareTo(b.Xpos);
@@ -164,9 +164,9 @@ internal sealed class FromTopRightColumnsFirst : IComparer<MatrixId>
         return 0;
     }
 }
-internal sealed class FromTopRightRowsFirst : IComparer<MatrixId>
+internal sealed class FromTopRightRowsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Ypos.CompareTo(b.Ypos);
@@ -189,9 +189,9 @@ internal sealed class FromTopRightRowsFirst : IComparer<MatrixId>
     }
 }
 
-internal sealed class FromTopLeftColumnsFirst : IComparer<MatrixId>
+internal sealed class FromTopLeftColumnsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Xpos.CompareTo(b.Xpos);
@@ -213,9 +213,9 @@ internal sealed class FromTopLeftColumnsFirst : IComparer<MatrixId>
         return 0;
     }
 }
-internal sealed class FromTopLeftRowsFirst : IComparer<MatrixId>
+internal sealed class FromTopLeftRowsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Ypos.CompareTo(b.Ypos);
@@ -238,9 +238,9 @@ internal sealed class FromTopLeftRowsFirst : IComparer<MatrixId>
     }
 }
 
-internal sealed class FromBottomLeftColumnsFirst : IComparer<MatrixId>
+internal sealed class FromBottomLeftColumnsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Xpos.CompareTo(b.Xpos);
@@ -262,9 +262,9 @@ internal sealed class FromBottomLeftColumnsFirst : IComparer<MatrixId>
         return 0;
     }
 }
-internal sealed class FromBottomLeftRowsFirst : IComparer<MatrixId>
+internal sealed class FromBottomLeftRowsFirst : IComparer<TrayID>
 {
-    public int Compare(MatrixId a, MatrixId b)
+    public int Compare(TrayID a, TrayID b)
     {
         int comparation;
         comparation = a.Ypos.CompareTo(b.Ypos);

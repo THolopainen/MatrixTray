@@ -2,7 +2,7 @@
 namespace MatrixTray.Common;
 
 [StructLayout(LayoutKind.Explicit, Size = 4)]
-public readonly struct MatrixId
+public readonly struct TrayID
 {
     [FieldOffset(0)]
     public readonly ushort Id;
@@ -13,27 +13,27 @@ public readonly struct MatrixId
     [FieldOffset(3)]
     public readonly byte Xpos;
 
-    public MatrixId(byte y, byte x)
+    public TrayID(byte y, byte x)
     {
         Id = (ushort)(y << 8 | x);
         Xpos = x;
         Ypos = y;
     }
 
-    public MatrixId(ushort id)
+    public TrayID(ushort id)
     {
         Id = id;
         Xpos = (byte)(0xF & id);
         Ypos = (byte)(0xF & (id >> 8));
     }
 
-    public static MatrixId Empty
+    public static TrayID Empty
         => new(0, 0);
 
-    public static bool operator ==(MatrixId left, MatrixId right)
+    public static bool operator ==(TrayID left, TrayID right)
         => left.Id == right.Id;
 
-    public static bool operator !=(MatrixId left, MatrixId right)
+    public static bool operator !=(TrayID left, TrayID right)
         => left.Id != right.Id;
 
     public override bool Equals(object? obj)
@@ -41,13 +41,13 @@ public readonly struct MatrixId
         if (obj == null)
             return false;
 
-        if (obj is not MatrixId comparand)
+        if (obj is not TrayID comparand)
             return false;
 
         return Equals(comparand);
     }
 
-    public bool Equals(MatrixId comparand)
+    public bool Equals(TrayID comparand)
         => this.Id == comparand.Id;
 
     public override int GetHashCode()

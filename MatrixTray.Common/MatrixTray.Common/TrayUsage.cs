@@ -1,6 +1,6 @@
 ﻿namespace MatrixTray.Common;
 
-public enum TrayMatrixUsage : byte
+public enum TrayUsage : byte
 {
     NoInUse     = 0,
     InUse       = 1,

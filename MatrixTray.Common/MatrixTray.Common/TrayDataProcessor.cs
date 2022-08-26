@@ -1,16 +1,16 @@
 ﻿namespace MatrixTray.Common;
 
-public sealed class MatrixDataProcessor
+public sealed class TrayDataProcessor
 {
-    private MatrixData _data;
+    private TrayData _data;
 
-    public MatrixDataProcessor(MatrixData Data)
+    public TrayDataProcessor(TrayData Data)
     {
         _ = Data ?? throw new ArgumentNullException(nameof(Data));
         _data = Data;
     }
 
-    public void InitializeMatrixCoordinates(MatrixCoord FirstSocket, MatrixCoord OffsetToNext)
+    public void InitializeMatrixCoordinates(TrayCoord FirstSocket, TrayCoord OffsetToNext)
     {
         //make all points to define to same origin coordinate;
 
@@ -46,43 +46,43 @@ public sealed class MatrixDataProcessor
     }
 
 
-    public void DisableSocketOnTray(MatrixId Id)
+    public void DisableSocketOnTray(TrayID Id)
     {
-        _data.InUse[GetIndex(Id)] = TrayMatrixUsage.NoInUse;
+        _data.InUse[GetIndex(Id)] = TrayUsage.NoInUse;
     }
 
-    public void EnableSocketOnTray(MatrixId Id)
+    public void EnableSocketOnTray(TrayID Id)
     {
-        _data.InUse[GetIndex(Id)] = TrayMatrixUsage.InUse;
+        _data.InUse[GetIndex(Id)] = TrayUsage.InUse;
     }
 
-    public void SkipSocketOnTray(MatrixId Id)
+    public void SkipSocketOnTray(TrayID Id)
     {
-        _data.InUse[GetIndex(Id)] = TrayMatrixUsage.SkipOver;
+        _data.InUse[GetIndex(Id)] = TrayUsage.SkipOver;
     }
 
-    public void SetSocketAngle(MatrixId Id, float angle)
+    public void SetSocketAngle(TrayID Id, float angle)
     {
         _data.SocketAngle[GetIndex(Id)] = angle;
     }
 
-    public void SetSubsectionIDForSocket(MatrixId Id, byte SubSectionID)
+    public void SetSubsectionIDForSocket(TrayID Id, byte SubSectionID)
     {
         _data.SubSectionID[GetIndex(Id)] = SubSectionID;
     }
 
-    public void SetSocketAngle(MatrixId Id, byte StatusCode)
+    public void SetSocketAngle(TrayID Id, byte StatusCode)
     {
         _data.Status[GetIndex(Id)] = StatusCode;
     }
 
-    public MatrixCoord GetSocketCoordinates(MatrixId Id)
+    public TrayCoord GetSocketCoordinates(TrayID Id)
     {
         ushort idx = GetIndex(Id);
-        return new MatrixCoord(_data.XPositionInMm[idx], _data.YPositionInMm[idx]);
+        return new TrayCoord(_data.XPositionInMm[idx], _data.YPositionInMm[idx]);
     }
 
-    public void GetSocketCoordinates(MatrixId Id, ref MatrixCoordRef coord)
+    public void GetSocketCoordinates(TrayID Id, ref TrayCoordRef coord)
     {
         ushort idx = GetIndex(Id);
         coord.XCoord = _data.XPositionInMm[idx];
@@ -134,9 +134,9 @@ public sealed class MatrixDataProcessor
 
 
 
-    private MatrixId _cachedId = MatrixId.Empty;
+    private TrayID _cachedId = TrayID.Empty;
     private ushort _cachedIdx = 0;
-    private ushort GetIndex(MatrixId id)
+    private ushort GetIndex(TrayID id)
     {
         //perf.
         //help JIT compiler to decide if to inline by making implementation <= 16 bytes
@@ -146,7 +146,7 @@ public sealed class MatrixDataProcessor
         return CalculateIndex(id);
     }
 
-    private ushort CalculateIndex(MatrixId id)
+    private ushort CalculateIndex(TrayID id)
     {
         if (IsOutOfBounds(id))
             throw new ArgumentOutOfRangeException(nameof(id));
@@ -164,9 +164,9 @@ public sealed class MatrixDataProcessor
         return 0;
     }
 
-    private bool IsOutOfBounds(MatrixId Id)
+    private bool IsOutOfBounds(TrayID Id)
     {
-        MatrixDefinition def = _data.Definition;
+        TrayDefinition def = _data.Definition;
 
         if (Id.Ypos > def.YCount)
             return true;

@@ -1,5 +1,5 @@
 ﻿namespace MatrixTray.Common;
-public enum MatrixStartCorner
+public enum TrayStartCorner
 {
     UpperLeft   = 0,
     UpperRight  = 1,
