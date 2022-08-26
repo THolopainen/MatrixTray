@@ -1,5 +1,10 @@
 ﻿namespace MatrixTray.Common;
 
+/// <summary>
+/// <para>Class calculates the processing order for given tray matrix.</para>
+/// <para>Processing order depends on which corner we want to start and to which direction to proceed.</para>
+/// <para>the sorted list if IDs can be read from the ProcessingOrder after calculation.</para>
+/// </summary>
 public sealed class MatrixProcessingOrder
 {
     private readonly MatrixId[] _processOrder;
