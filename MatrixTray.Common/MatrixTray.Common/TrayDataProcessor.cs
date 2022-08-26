@@ -45,6 +45,26 @@ public sealed class TrayDataProcessor
         }
     }
 
+    public void FinalizeTrayInitialization()
+    {
+        for (int i = 0; i < _data.Status.Length; i++)
+        {
+            _data.Status[i] = TrayStatus.Initialized;
+        }
+    }
+
+    public bool IsProcessableSocket(TrayID Id)
+    {
+        ushort idx = GetIndex(Id);
+
+        if (_data.InUse[idx] != TrayUsage.InUse)
+            return false;
+
+        if (_data.Status[idx] != TrayStatus.Initialized)
+            return false;
+
+        return true;
+    }
 
     public void DisableSocketOnTray(TrayID Id)
     {
@@ -71,11 +91,6 @@ public sealed class TrayDataProcessor
         _data.SubSectionID[GetIndex(Id)] = SubSectionID;
     }
 
-    public void SetSocketAngle(TrayID Id, byte StatusCode)
-    {
-        _data.Status[GetIndex(Id)] = StatusCode;
-    }
-
     public TrayCoord GetSocketCoordinates(TrayID Id)
     {
         ushort idx = GetIndex(Id);
@@ -88,7 +103,6 @@ public sealed class TrayDataProcessor
         coord.XCoord = _data.XPositionInMm[idx];
         coord.YCoord = _data.YPositionInMm[idx];
     }
-
 
     public async Task AdjustXOffsetForColumnAsync(byte FromXColumnNumber, float OffsetToNextColumn)
     {
@@ -129,10 +143,6 @@ public sealed class TrayDataProcessor
             _data.XOffSet[i] += OffsetToNextRow;
         }
     }
-
-
-
-
 
     private TrayID _cachedId = TrayID.Empty;
     private ushort _cachedIdx = 0;

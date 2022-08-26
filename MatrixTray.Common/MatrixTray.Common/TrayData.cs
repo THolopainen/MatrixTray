@@ -34,7 +34,7 @@ public sealed class TrayData
         => _socketXCorrection;
     public object[] Tag
         => _tag;
-    public byte[] Status
+    public TrayStatus[] Status
         => _status;
 
 
@@ -52,7 +52,7 @@ public sealed class TrayData
         _socketYCorrection = new float[_tray.MatrixSize];
         _socketXCorrection = new float[_tray.MatrixSize];
         _tag = new object[_tray.MatrixSize];
-        _status = new byte[_tray.MatrixSize];
+        _status = new TrayStatus[_tray.MatrixSize];
 
         InitializeMatrixIdentities();
 
@@ -78,7 +78,7 @@ public sealed class TrayData
             _socketXCorrection[i] = 0;
 
         for (ushort i = 0; i < _tray.MatrixSize; i++)
-            _status[i] = 0;
+            _status[i] = TrayStatus.Nothing;
 
         void InitializeMatrixIdentities()
         {
@@ -102,13 +102,13 @@ public sealed class TrayData
 
     private readonly TrayDefinition _tray;
     private TrayStartCorner _corner = TrayStartCorner.UpperLeft;
-    private TrayDirection _direction = TrayDirection.Xdirection;
+    private TrayDirection _direction = TrayDirection.X;
     private readonly TrayUsage[] _inUse;
     private readonly byte[] _subSectionId;
     private readonly TrayID[] _ids;
     private readonly float[] _xAbsPosInMm;
     private readonly float[] _yAbsPosInMm;
-    private readonly byte[] _status;
+    private readonly TrayStatus[] _status;
     private readonly float[] _xOffsetInMm; //0.0001 mm
     private readonly float[] _yOffsetInMm; //0.0001 mm
     private readonly float[] _socketAngle; //0.0001 mm

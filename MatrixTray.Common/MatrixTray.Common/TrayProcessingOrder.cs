@@ -67,24 +67,24 @@ public sealed class TrayProcessingOrder
     private static IComparer<TrayID> GetComparer(TrayStartCorner c, TrayDirection d) 
         => (c, d) switch
     {
-        (TrayStartCorner.UpperLeft, TrayDirection.Xdirection)
+        (TrayStartCorner.UpperLeft, TrayDirection.X)
             => new FromTopLeftRowsFirst(),
-        (TrayStartCorner.UpperLeft, TrayDirection.YDirection)
+        (TrayStartCorner.UpperLeft, TrayDirection.Y)
             => new FromTopLeftColumnsFirst(),
 
-        (TrayStartCorner.UpperRight, TrayDirection.Xdirection)
+        (TrayStartCorner.UpperRight, TrayDirection.X)
             => new FromTopRightRowsFirst(),
-        (TrayStartCorner.UpperRight, TrayDirection.YDirection)
+        (TrayStartCorner.UpperRight, TrayDirection.Y)
             => new FromTopRightColumnsFirst(),
 
-        (TrayStartCorner.LowerLeft, TrayDirection.Xdirection)
+        (TrayStartCorner.LowerLeft, TrayDirection.X)
             => new FromBottomLeftColumnsFirst(),
-        (TrayStartCorner.LowerLeft, TrayDirection.YDirection)
+        (TrayStartCorner.LowerLeft, TrayDirection.Y)
             => new FromBottomLeftRowsFirst(),
 
-        (TrayStartCorner.LowerRight, TrayDirection.Xdirection)
+        (TrayStartCorner.LowerRight, TrayDirection.X)
             => new FromBottomRightRowsFirst(),
-        (TrayStartCorner.LowerRight, TrayDirection.YDirection)
+        (TrayStartCorner.LowerRight, TrayDirection.Y)
             => new FromBottomRightColumnsFirst(),
 
         (_, _) => throw new InvalidOperationException()
