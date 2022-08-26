@@ -15,6 +15,12 @@ proc.InitializeMatrixCoordinates(start, offset);
 
 proc.AdjustXOffsetForColumn(3, 0.5f);
 
+var dir = new MatrixProcessingOrder(data);
 
+dir.Calculate(MatrixStartCorner.LowerLeft, MatrixDirection.YDirection);
+var ans = dir.GetProcessingOrder();
+
+dir.Calculate(MatrixStartCorner.UpperRight, MatrixDirection.YDirection);
+ans = dir.GetProcessingOrder();
 
 Console.ReadKey();

@@ -8,10 +8,10 @@ public readonly struct MatrixId
     public readonly ushort Id;
 
     [FieldOffset(2)]
-    public readonly byte Xpos;
+    public readonly byte Ypos;
 
     [FieldOffset(3)]
-    public readonly byte Ypos;
+    public readonly byte Xpos;
 
     public MatrixId(byte y, byte x)
     {

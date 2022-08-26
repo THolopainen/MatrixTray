@@ -82,6 +82,13 @@ public sealed class MatrixDataProcessor
         return new MatrixCoord(_data.XPositionInMm[idx], _data.YPositionInMm[idx]);
     }
 
+    public void GetSocketCoordinates(MatrixId Id, ref MatrixCoordRef coord)
+    {
+        ushort idx = GetIndex(Id);
+        coord.XCoord = _data.XPositionInMm[idx];
+        coord.YCoord = _data.YPositionInMm[idx];
+    }
+
 
     public async Task AdjustXOffsetForColumnAsync(byte FromXColumnNumber, float OffsetToNextColumn)
     {
